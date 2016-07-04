@@ -8,13 +8,13 @@ namespace _20160702_CorrectNumbers
 {
     public class NumberParser
     {
-        private string restrictedSymbols = "!@#$%^&*()_+={}[]\\|:;\"'<>/,`~";
+        private string restrictedSymbols = "!@#$%^&*()_+={}[]\\|:;\"'<>/`~";
 
         private int intMinValue = 0;
         private int intMaxValue = 0;
 
-        private double doubleMinValue = 0.0;
-        private double doubleMaxValue = 0.0;
+        private double doubleMinValue = 0.00;
+        private double doubleMaxValue = 0.00;
 
         public bool ParseItegerForRange(string inputNumber)
         {
@@ -34,7 +34,8 @@ namespace _20160702_CorrectNumbers
                     if (number >= intMinValue && number <= intMaxValue)
                     {
                         isParsed = true;
-                        Console.WriteLine("Number {0} parsed successfully!", number);
+                        Logger.ShowMsg(string.Format("Number {0} parsed successfully!", number));
+                     //   Console.WriteLine();
                     }
                     else
                     {
@@ -64,9 +65,9 @@ namespace _20160702_CorrectNumbers
         public bool ParseDoubleForRange(string inputNumber)
         {
             bool isParsed = false;
-            double number = 0.0;
+            double number = 0.00;
 
-            if ((doubleMaxValue == 0.0) && (doubleMinValue == 0.0))
+            if ((doubleMaxValue == 0.00) && (doubleMinValue == 0.00))
             {
                 doubleMinValue = double.MinValue;
                 doubleMaxValue = double.MaxValue;
@@ -261,7 +262,7 @@ namespace _20160702_CorrectNumbers
             }
             else
             {
-                Console.WriteLine("Failed adding restricted symbol: {0}. Cause: symbol already in use.", restrictedSymbol);
+                Console.WriteLine("Failed adding restricted symbol: {0}. Cause: Symbol already in use.", restrictedSymbol);
             }
 
             return result;
@@ -275,7 +276,6 @@ namespace _20160702_CorrectNumbers
             {
                 if (symbol.Contains(restrictedSymbols[i]))
                 {
-                    //Console.WriteLine("Symbol {0} is restricted!", symbol);
                     result = true;
                     break;
                 }

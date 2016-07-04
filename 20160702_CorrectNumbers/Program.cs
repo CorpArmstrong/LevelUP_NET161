@@ -19,21 +19,23 @@ namespace _20160702_CorrectNumbers
 	        {
                 Console.Clear();
                 Console.WriteLine("To check for Integer num - type INT");
-                Console.WriteLine("To check for Integer num - type DLB");
+                Console.WriteLine("To check for Double num - type DLB");
                 Console.WriteLine("To setup range for Integer - type SINT");
                 Console.WriteLine("To setup range for Double - type SDLB");
                 Console.WriteLine("To show restricted symbols - type RES");
                 Console.WriteLine("To add restricted symbol - type ADD");
-                Console.WriteLine("To quit - type QUIT");
+                Console.Write("To quit - type QUIT\n\n--> ");
                 
                 userInput = Console.ReadLine().ToUpper();
 
                 switch (userInput)
                 {
                     case "INT":
+                        Console.Write("Enter integer number: ");
                         numberParser.ParseItegerForRange(Console.ReadLine());
                         break;
                     case "DLB":
+                        Console.Write("Enter double number: ");
                         numberParser.ParseDoubleForRange(Console.ReadLine());
                         break;
                     case "SINT":
@@ -46,11 +48,12 @@ namespace _20160702_CorrectNumbers
                         numberParser.ShowRestrictedSymbols();
                         break;
                     case "ADD":
+                        Console.Write("Enter restricted symbol to be added: ");
                         numberParser.AddRestrictedSymbol(Console.ReadLine());
                         break;
                     case "QUIT":
                         isQuit = true;
-                        Console.WriteLine("Goodbye!!!");
+                        Console.WriteLine("\nGoodbye!!!");
                         break;
                     default:
                         Console.WriteLine("Incorrect command! Try again!");
@@ -61,11 +64,10 @@ namespace _20160702_CorrectNumbers
                 {
                     Console.ReadKey();
                 }
-                
 	        }
             while (!isQuit);
 
-            Console.WriteLine("Good Luck!");
+            Console.WriteLine("...");
             Console.ReadKey();
         }
     }

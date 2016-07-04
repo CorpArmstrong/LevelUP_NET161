@@ -1,0 +1,17 @@
+Starting with C# 6.0, this is possible:
+
+using static FileHelper;
+
+// in a member
+ExtractSimpleFileName(file)
+However, previous versions of C# do not have static imports.
+
+You can get close with an alias for the type.
+
+using FH = namespace.FileHelper;
+
+// in a member
+FH.ExtractSimpleFileName(file)
+Alternatively, change the static method to an extension method on the type - you would then be able to call it as:
+
+var value = file.ExtractSimpleFileName();

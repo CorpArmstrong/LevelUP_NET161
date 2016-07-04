@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6C69A910-9D10-4CC9-B13D-7E7616C9E5AC}</ProjectGuid>
+    <ProjectGuid>{CE6EF378-E53C-4D20-B7BA-F9BCA2BD23CA}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>_20160702_CorrectNumbers</RootNamespace>
-    <AssemblyName>20160702_CorrectNumbers</AssemblyName>
+    <RootNamespace>_20160704_RecursiveFunctions</RootNamespace>
+    <AssemblyName>20160704_RecursiveFunctions</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -41,8 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Logger.cs" />
-    <Compile Include="NumberParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
