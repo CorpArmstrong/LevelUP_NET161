@@ -35,28 +35,27 @@ namespace _20160702_CorrectNumbers
                     {
                         isParsed = true;
                         Logger.ShowMsg(string.Format("Number {0} parsed successfully!", number));
-                     //   Console.WriteLine();
                     }
                     else
                     {
-                        Console.WriteLine("Number {0} must be in a range from {1} to {2} !", number, intMinValue, intMaxValue);
+                        Logger.ShowMsg(string.Format("Number {0} must be in a range from {1} to {2} !", number, intMinValue, intMaxValue));
                     }
                 }
                 else
                 {
                     if (intMinValue == int.MinValue && intMaxValue == int.MaxValue)
                     {
-                        Console.WriteLine("Number {0} is not an integer number!", inputNumber);
+                        Logger.ShowMsg(string.Format("Number {0} is not an integer number!", inputNumber));
                     }
                     else
                     {
-                        Console.WriteLine(inputNumber + " - is not a number!");
+                        Logger.ShowMsg(string.Format(inputNumber + " - is not a number!"));
                     }
                 }
             }
             else
             {
-                Console.WriteLine("Symbol {0} is restricted!", inputNumber);
+                Logger.ShowMsg(string.Format("Symbol {0} is restricted!", inputNumber));
             }
 
             return isParsed;
@@ -80,28 +79,28 @@ namespace _20160702_CorrectNumbers
                     if (number >= doubleMinValue && number <= doubleMaxValue)
                     {
                         isParsed = true;
-                        Console.WriteLine("Number {0} parsed successfully!", number);
+                        Logger.ShowMsg(string.Format("Number {0} parsed successfully!", number));
                     }
                     else
                     {
-                        Console.WriteLine("Number {0} must be in a range from {1} to {2} !", number, doubleMinValue, doubleMaxValue);
+                        Logger.ShowMsg(string.Format("Number {0} must be in a range from {1} to {2} !", number, doubleMinValue, doubleMaxValue));
                     }
                 }
                 else
                 {
                     if (doubleMinValue == double.MinValue && doubleMaxValue == double.MaxValue)
                     {
-                        Console.WriteLine("Number {0} is not an double number!", inputNumber);
+                        Logger.ShowMsg(string.Format("Number {0} is not an double number!", inputNumber));
                     }
                     else
                     {
-                        Console.WriteLine(inputNumber + " - is not a number!");
+                        Logger.ShowMsg(string.Format(inputNumber + " - is not a number!"));
                     }
                 }
             }
             else
             {
-                Console.WriteLine("Symbol {0} is restricted!", inputNumber);
+                Logger.ShowMsg(string.Format("Symbol {0} is restricted!", inputNumber));
             }
 
             return isParsed;
@@ -116,25 +115,25 @@ namespace _20160702_CorrectNumbers
             do
             {
                 Console.Clear();
-                Console.WriteLine("Enter range from: ");
+                Logger.ShowMsg(string.Format("Enter range from: "));
                 userInput = Console.ReadLine();
 
                 if (!IsRestrictedSymbol(userInput))
                 {
                     if (int.TryParse(userInput, out intMinValue))
                     {
-                        Console.WriteLine("Number {0} added as minimum for int.", intMinValue);
+                        Logger.ShowMsg(string.Format("Number {0} added as minimum for int.", intMinValue));
                         isParsed = true;
                     }
                     else
                     {
-                        Console.WriteLine("The symbol {0} is not a valid number!", userInput);
+                        Logger.ShowMsg(string.Format("The symbol {0} is not a valid number!", userInput));
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Number {0} is a restricted symbol!", userInput);    
-                    Console.WriteLine("Restricted symbols: " + restrictedSymbols);
+                    Logger.ShowMsg(string.Format("Number {0} is a restricted symbol!", userInput));
+                    Logger.ShowMsg(string.Format("Restricted symbols: " + restrictedSymbols));    
                 }
             }
             while (!isParsed);
@@ -145,7 +144,7 @@ namespace _20160702_CorrectNumbers
             do
             {
                 Console.Clear();
-                Console.WriteLine("Enter range To: ");
+                Logger.ShowMsg(string.Format("Enter range To: "));
                 userInput = Console.ReadLine();
 
                 if (!IsRestrictedSymbol(userInput))
@@ -154,23 +153,23 @@ namespace _20160702_CorrectNumbers
                     {
                         if (intMaxValue > intMinValue)
                         {
-                            Console.WriteLine("Number {0} added as maximum for int.", intMaxValue);
+                            Logger.ShowMsg(string.Format("Number {0} added as maximum for int.", intMaxValue));
                             isParsed = true;
                         }
                         else
                         {
-                            Console.WriteLine("Number {0} must be greater than a minimum number {1} !", intMaxValue, intMinValue);
+                            Logger.ShowMsg(string.Format("Number {0} must be greater than a minimum number {1} !", intMaxValue, intMinValue));
                         }
                     }
                     else
                     {
-                        Console.WriteLine("The symbol {0} is not a valid number!", userInput);
+                        Logger.ShowMsg(string.Format("The symbol {0} is not a valid number!", userInput));
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Number {0} is a restricted symbol!", intMinValue);
-                    Console.WriteLine("Restricted symbols: " + restrictedSymbols);
+                    Logger.ShowMsg(string.Format("Number {0} is a restricted symbol!", intMinValue));
+                    Logger.ShowMsg(string.Format("Restricted symbols: " + restrictedSymbols));
                 }
             }
             while (!isParsed);
@@ -247,7 +246,7 @@ namespace _20160702_CorrectNumbers
 
         public void ShowRestrictedSymbols()
         {
-            Console.WriteLine(restrictedSymbols);
+            Logger.ShowMsg(restrictedSymbols);
         }
 
         public bool AddRestrictedSymbol(string restrictedSymbol)
@@ -258,11 +257,11 @@ namespace _20160702_CorrectNumbers
             {
                 result = true;
                 restrictedSymbols += restrictedSymbol;
-                Console.WriteLine("Successfully added restricted symbol: {0}", restrictedSymbol);
+                Logger.ShowMsg(string.Format("Successfully added restricted symbol: {0}", restrictedSymbol));
             }
             else
             {
-                Console.WriteLine("Failed adding restricted symbol: {0}. Cause: Symbol already in use.", restrictedSymbol);
+                Logger.ShowMsg(string.Format("Failed adding restricted symbol: {0}. Cause: Symbol already in use.", restrictedSymbol));
             }
 
             return result;
