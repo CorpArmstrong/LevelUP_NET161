@@ -1,0 +1,7 @@
+Core Game Framework:
+1) Game Controller
+2) Scene Manager
+3) UI Manager
+4) Sound Manager
+5) Players
+6) AI and Enemies
