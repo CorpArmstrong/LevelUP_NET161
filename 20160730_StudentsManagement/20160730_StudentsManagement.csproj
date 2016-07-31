@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F2FF0020-24A8-48C0-8BB4-F238B38A4D4E}</ProjectGuid>
+    <ProjectGuid>{38B16035-E524-4E69-B96D-0A793D2C527C}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>_20160711_HomeWorkMatrix</RootNamespace>
-    <AssemblyName>20160711_HomeWorkMatrix</AssemblyName>
+    <RootNamespace>_20160730_StudentsManagement</RootNamespace>
+    <AssemblyName>20160730_StudentsManagement</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -41,8 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArraySortOrder.cs" />
-    <Compile Include="HanoiTowers.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

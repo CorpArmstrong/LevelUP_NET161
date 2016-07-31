@@ -90,7 +90,7 @@ namespace _20160711_HomeWorkMatrix
             {
                 for (int j = 0; j < arr.GetLength(1); j++)
                 {
-                    Console.Write("[{0}]  ", arr[i, j]);
+                    Console.Write("[{0, 8}]  ", arr[i, j]);
                 }
                 Console.WriteLine();
             }
