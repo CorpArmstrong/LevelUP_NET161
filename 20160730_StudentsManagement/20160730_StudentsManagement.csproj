@@ -41,11 +41,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessLayer\MainMenu.cs" />
+    <Compile Include="BusinessLayer\UserCommands.cs" />
+    <Compile Include="DataLayer\TestData\TestStudentsData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DataLayer\Entity\Student.cs" />
+    <Compile Include="DataLayer\StudentsGroup.cs" />
+    <Compile Include="Utils\CommonUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="GUILayer\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
