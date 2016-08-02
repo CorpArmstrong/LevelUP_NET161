@@ -46,7 +46,9 @@ namespace _20160730_StudentsManagement.BusinessLayer
                 if (int.TryParse(inputStr, out pos))
                 {
                     if ((pos - 1 >= 0) && (pos - 1 < studs.Length))
+                    {
                         isDoneParse = true;
+                    }
                 }
             }
             while (!isDoneParse);
