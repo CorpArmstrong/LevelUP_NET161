@@ -8,7 +8,7 @@ namespace _20160730_StudentsManagement.BusinessLayer
 {
     public class MainMenu
     {
-        private StudentsGroup group = StudentsGroup.InitStudentsGroup;
+        private StudentsGroup group = StudentsGroup.InitStudentsGroup();
 
         public void RunMainMenu()
         {

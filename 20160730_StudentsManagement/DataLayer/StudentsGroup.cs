@@ -17,20 +17,25 @@ namespace _20160730_StudentsManagement
             this._random = random;
         }
 
-        public static StudentsGroup InitStudentsGroup
+        public static StudentsGroup InitStudentsGroup()
         {
-            get
-            {
+//            get
+  //          {
                 StudentsGroup group = new StudentsGroup();
                 group.SetRandom(new Random());
                 group.GenerateAndSetRandomStudents(TestStudentsData.NUM_STUDENTS);
                 return group;
-            }
+    //        }
         }
 
         public Student[] GetStudents()
         {
             return _students;
+        }
+
+        public Student GetStudent(int pos)
+        {
+            return _students[pos];
         }
 
         #region "Students Methods"
