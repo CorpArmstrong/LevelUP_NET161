@@ -42,9 +42,11 @@ namespace SingleLinkedListDemo
             
         }
 
-        public int? ExtractByPosition(int position)
+        //public int? ExtractByPosition(int position)
+        public int ExtractByPosition(int position)
         {
-            int? retValue = null;
+            //int? retValue = null;
+            int retValue = 0;
             Node np = GetElementByPosition(position - 1).Next;
 
             if (position < GetSize()-1)
