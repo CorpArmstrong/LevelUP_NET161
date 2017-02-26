@@ -38,7 +38,7 @@ namespace SingleLinkedListDemo
             }
         }
 
-        public T GetFromBegin()
+        public T ExtractFromBegin()
         {
             T retValue = default(T);
 
@@ -64,7 +64,7 @@ namespace SingleLinkedListDemo
 
             if (IsEqual(_first.Data, val))
             {
-                GetFromBegin();
+                ExtractFromBegin();
                 return true;
             }
 
@@ -138,14 +138,15 @@ namespace SingleLinkedListDemo
                 {
                     while (currentElem.Next != null)
                     {
+                        ++pos;
+
                         if (pos == position)
                         {
-                            retValue = currentElem;
+                            retValue = currentElem.Next;
                             break;
                         }
 
                         currentElem = currentElem.Next;
-                        ++pos;
                     }
                 }
             }

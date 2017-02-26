@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 
 namespace SingleLinkedListDemo
@@ -8,20 +9,48 @@ namespace SingleLinkedListDemo
     {
         static void Main(string[] args)
         {
+            //LinkedList<string> strList = new LinkedList<string>();
+            //strList.AddFirst("bfg");
+            //strList.AddFirst("xxx");
+            //strList.AddFirst("yyy");
+
+            //foreach (string item in strList)
+            //{
+            //    Console.WriteLine(item);
+            //}
+
+            //foreach (string item in strList)
+            //{
+            //    Console.WriteLine(item);
+            //}
+
+            //Console.WriteLine("End of list.");
+
             SingleLinkedList<string> list = new SingleLinkedList<string>();
 
-            list.AddToBegin("abc");
-            list.AddToBegin("dcv");
-            list.AddToBegin("dxf");
-
+            // 1) AddToBegin
+            list.AddToBegin("aaa");
+            list.AddToBegin("bbb");
+            list.AddToBegin("ccc");
             list.PrintToConsole();
 
-            list.RemoveByValue("dxf");
+            // 2) RemoveByValue
+            Console.WriteLine("Remove by value: " + list.RemoveByValue("bbb"));
             list.PrintToConsole();
 
-            // Bug!
-            //list.GetValueByPosition(1);
-            //list.PrintToConsole();
+            // 3) GetValueByPosition
+            Console.WriteLine("Get value by position: " + list.GetValueByPosition(1));
+            list.PrintToConsole();
+
+            // 4) AddToEnd
+            Console.WriteLine("Add to end:");
+            list.AddToEnd("endstring");
+            list.PrintToConsole();
+
+            // 5) GetFromBegin
+            Console.WriteLine("Get from begin: " + list.ExtractFromBegin());
+            list.PrintToConsole();
+            
 
             #region Enumerator explanation
             //Console.WriteLine();
