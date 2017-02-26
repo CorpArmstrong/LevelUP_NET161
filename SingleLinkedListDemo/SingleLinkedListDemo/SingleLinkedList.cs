@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SingleLinkedListDemo
 {
-    public class SingleLinkedList : IEnumerable, IEnumerator
+    public class SingleLinkedList<T> : IEnumerable, IEnumerator
     {
         public bool IsEmpty()
         {
@@ -42,11 +42,54 @@ namespace SingleLinkedListDemo
             
         }
 
-        //public int? ExtractByPosition(int position)
-        public int ExtractByPosition(int position)
+        public int GetFromBegin()
         {
-            //int? retValue = null;
             int retValue = 0;
+
+            if (_first == null)
+            { 
+                // Обработка нештатной ситуации (throw Exception())
+            }
+            else
+            {
+                retValue = _first.Data;
+                _first = _first.Next;
+            }
+
+            return retValue;
+        }
+
+        public bool RemoveByValue(int val)
+        {
+            if (_first == null)
+            {
+                // Обработка нештатной ситуации (throw Exception())
+            }
+
+            if (_first.Data == val)
+            {
+                GetFromBegin();
+                return true;
+            }
+
+            Node currElem = _first;
+            while (currElem.Next != null && currElem.Next.Data != val)
+            {
+                currElem = currElem.Next;
+            }
+            if (currElem.Next != null)
+            {
+                currElem.Next = currElem.Next.Next;
+            }
+
+            return false;
+        }
+
+        public int? ExtractByPosition(int position)
+        //public int ExtractByPosition(int position)
+        {
+            int? retValue = null;
+            //int retValue = 0;
             Node np = GetElementByPosition(position - 1).Next;
 
             if (position < GetSize()-1)
@@ -69,9 +112,9 @@ namespace SingleLinkedListDemo
             return retValue;
         }
 
-        public int ExtractFromEnd()
+        public int? ExtractFromEnd()
         {
-            int retValue = ExtractByPosition(GetSize()-1);
+            int? retValue = ExtractByPosition(GetSize()-1);
 
             //if (IsEmpty())
             //{
@@ -188,6 +231,8 @@ namespace SingleLinkedListDemo
             return size;
         }
 
+        #region Реализация явная интерфейса итератора для односвязного списка
+
         object IEnumerator.Current
         {
             get
@@ -206,7 +251,7 @@ namespace SingleLinkedListDemo
             {
                 _current = _current.Next;
             }
-            
+
             return (_current != null);
         }
 
@@ -215,6 +260,10 @@ namespace SingleLinkedListDemo
             _current = _first;
             _isFirst = true;
         }
+
+        #endregion
+
+
 
         private Node _first = null;    // ссылка на 1-й элемент в списке
         private Node _current = null;
