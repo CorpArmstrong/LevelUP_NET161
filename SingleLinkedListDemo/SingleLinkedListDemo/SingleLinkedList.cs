@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SingleLinkedListDemo
 {
@@ -14,20 +11,20 @@ namespace SingleLinkedListDemo
             return _first == null;
         }
 
-        public void AddToBegin(int d)
+        public void AddToBegin(T d)
         {
-            Node newElem = new Node(d);
-
+            Node<T> newElem = new Node<T>(d);
             newElem.Next = _first;
             _first = newElem;
         }
-        public void AddToEnd(int d)
-        {
-            Node newElem = new Node(d);
 
-            if (_first != null)
+        public void AddToEnd(T d)
+        {
+            Node<T> newElem = new Node<T>(d);
+
+            if (!IsEmpty())
             {
-                Node currentElem = _first;
+                Node<T> currentElem = _first;
                 while (currentElem.Next != null)
                 {
                     currentElem = currentElem.Next;
@@ -37,17 +34,16 @@ namespace SingleLinkedListDemo
             }
             else
             {
-                _first = newElem;    
+                _first = newElem;
             }
-            
         }
 
-        public int GetFromBegin()
+        public T GetFromBegin()
         {
-            int retValue = 0;
+            T retValue = default(T);
 
-            if (_first == null)
-            { 
+            if (IsEmpty())
+            {
                 // Обработка нештатной ситуации (throw Exception())
             }
             else
@@ -59,24 +55,26 @@ namespace SingleLinkedListDemo
             return retValue;
         }
 
-        public bool RemoveByValue(int val)
+        public bool RemoveByValue(T val)
         {
-            if (_first == null)
+            if (IsEmpty())
             {
                 // Обработка нештатной ситуации (throw Exception())
             }
 
-            if (_first.Data == val)
+            if (IsEqual(_first.Data, val))
             {
                 GetFromBegin();
                 return true;
             }
 
-            Node currElem = _first;
-            while (currElem.Next != null && currElem.Next.Data != val)
+            Node<T> currElem = _first;
+
+            while (currElem.Next != null && !IsEqual(currElem.Next.Data, val))
             {
                 currElem = currElem.Next;
             }
+
             if (currElem.Next != null)
             {
                 currElem.Next = currElem.Next.Next;
@@ -85,97 +83,81 @@ namespace SingleLinkedListDemo
             return false;
         }
 
-        public int? ExtractByPosition(int position)
-        //public int ExtractByPosition(int position)
+        public T ExtractByPosition(int position)
         {
-            int? retValue = null;
-            //int retValue = 0;
-            Node np = GetElementByPosition(position - 1).Next;
+            T retValue = default(T);
+            Node<T> np = GetElementByPosition(position - 1).Next;
 
-            if (position < GetSize()-1)
+            if (position < GetSize() - 1)
             {
-                
-                Node npNext = np.Next;
-                Node npNextNext = npNext.Next;
+                Node<T> npNext = np.Next;
+                Node<T> npNextNext = npNext.Next;
 
                 np.Next = npNextNext;
-                //Node npNext = GetElementByPosition(position).Next;
                 retValue = np.Data;
-                //GetElementByPosition(position - 1).Next = GetElementByPosition(position).Next;
             }
             else
             {
                 np = null;
             }
-            
 
             return retValue;
         }
 
-        public int? ExtractFromEnd()
+        public T ExtractFromEnd()
         {
-            int? retValue = ExtractByPosition(GetSize()-1);
-
-            //if (IsEmpty())
-            //{
-            //    return -1;
-            //    // throw
-            //}
-
-            //if (_first.Next != null)
-            //{
-            //    Node currentElem = _first;
-            //    while (currentElem.Next.Next != null)
-            //    {
-            //        currentElem = currentElem.Next;
-            //    }
-
-            //    retValue = currentElem.Next.Data;
-            //    currentElem.Next = null;
-            //}
-            //else
-            //{
-            //    retValue = _first.Data;
-            //    _first = null;
-            //}
-
-
+            T retValue = ExtractByPosition(GetSize() - 1);
             return retValue;
         }
 
-        private Node GetElementByPosition(int position)
+        private bool IsEqual<V>(V x, V y)
         {
-            Node retValue = null;
+            return x.Equals(y);
+        }
 
-            if (position >= 0 && position < GetSize())
+        private Node<T> GetElementByPosition(int position)
+        {
+            Node<T> retValue = null;
+            int arrSize = GetSize();
+
+            if (IsEmpty())
             {
-                if (!IsEmpty())
-                {
-                    Node currentElem = _first;
-                    int pos = 0;
+                // throw exception EmptyContainer
+            }
 
-                    if (pos == position)
+            if (position >= 0 && position < arrSize)
+            {
+                Node<T> currentElem = _first;
+                int pos = 0;
+
+                if (pos == position)
+                {
+                    retValue = currentElem;
+                }
+                else
+                {
+                    while (currentElem.Next != null)
                     {
-                        retValue = currentElem;
-                    }
-                    else
-                    {
-                        while (currentElem.Next != null)
+                        if (pos == position)
                         {
-                            if (pos == position)
-                            {
-                                retValue = currentElem.Next;
-                            }
-                            ++pos;
+                            retValue = currentElem;
+                            break;
                         }
+
+                        currentElem = currentElem.Next;
+                        ++pos;
                     }
                 }
+            }
+            else
+            {
+                // throw exception OutOfBounds?
             }
 
             return retValue;
         }
 
-        public int GetValueByPosition(int position)
+        public T GetValueByPosition(int position)
         {
             return GetElementByPosition(position).Data;
         }
@@ -190,11 +172,6 @@ namespace SingleLinkedListDemo
         {
             StringBuilder builder = new StringBuilder();
 
-            //for (int i = 0; i < GetSize(); i++ )
-            //{
-            //    builder.Append(GetValueByPosition(i).ToString() + "\t");
-            //}
-
             foreach (int item in this)
             {
                 builder.Append(item.ToString() + "\t");
@@ -204,13 +181,14 @@ namespace SingleLinkedListDemo
 
         public void PrintToConsole()
         {
-            Node currentElem = _first;   //  !!! _first нельзя изменять
+            Node<T> currentElem = _first;
 
             while (currentElem != null)
             {
-                Console.Write(currentElem.Data + "\t");
+                Console.WriteLine(currentElem.Data);
                 currentElem = currentElem.Next;
             }
+            Console.WriteLine("End of list");
         }
 
         public int GetSize()
@@ -219,11 +197,12 @@ namespace SingleLinkedListDemo
 
             if (!IsEmpty())
             {
-                Node currentElem = _first;
+                Node<T> currentElem = _first;
                 size = 1;
 
                 while (currentElem.Next != null)
                 {
+                    currentElem = currentElem.Next;
                     ++size;
                 }
             }
@@ -263,49 +242,33 @@ namespace SingleLinkedListDemo
 
         #endregion
 
-
-
-        private Node _first = null;    // ссылка на 1-й элемент в списке
-        private Node _current = null;
+        private Node<T> _first = null;    // ссылка на 1-й элемент в списке
+        private Node<T> _current = null;
         private bool _isFirst = true;
 
         // Элемент списка
-        private class Node
+        private class Node<U>
         {
-            public Node(int data)
+            public Node(U data)
             {
                 _data = data;
                 _next = null;
             }
 
-            public int Data
+            public U Data
             {
-                get
-                {
-                    return _data;
-                }
-                set
-                {
-                    _data = value;
-                }
+                get { return _data; }
+                set { _data = value; }
             }
 
-            public Node Next
+            public Node<U> Next
             {
-                get
-                {
-                    return _next;
-                }
-                set
-                {
-                    _next = value;
-                }
+                get { return _next; }
+                set { _next = value; }
             }
 
-            private int _data;
-            private Node _next;
+            private U _data;
+            private Node<U> _next;
         }
-
-        
     }
 }

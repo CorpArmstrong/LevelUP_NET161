@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 
 namespace SingleLinkedListDemo
 {
-    public class LinkedListIterator : IEnumerator
+    public class LinkedListIterator<T> : IEnumerator
     {
-        public LinkedListIterator(SingleLinkedList list)
+        public LinkedListIterator(SingleLinkedList<T> list)
         {
             _myList = list;
         }
@@ -18,7 +13,6 @@ namespace SingleLinkedListDemo
         {
             get
             {
-                //return _myList.GetElementByPosition(_position);
                 return null;
             }
         }
@@ -42,6 +36,6 @@ namespace SingleLinkedListDemo
         }
 
         int _position = 0;
-        SingleLinkedList _myList = null;
+        SingleLinkedList<T> _myList = null;
     }
 }
