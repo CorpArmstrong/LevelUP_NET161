@@ -9,7 +9,7 @@ namespace SingleLinkedListDemo
     {
         static void Main(string[] args)
         {
-            //LinkedList<string> strList = new LinkedList<string>();
+            LinkedList<string> strList = new LinkedList<string>();
             //strList.AddFirst("bfg");
             //strList.AddFirst("xxx");
             //strList.AddFirst("yyy");

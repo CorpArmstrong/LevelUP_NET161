@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Text;
 
-namespace SingleLinkedListDemo
+namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
 {
     public class SingleLinkedList<T> : IEnumerable, IEnumerator
     {
@@ -88,7 +87,7 @@ namespace SingleLinkedListDemo
             T retValue = default(T);
             Node<T> np = GetElementByPosition(position - 1).Next;
 
-            if (position < GetSize() - 1)
+            if (position < Count() - 1)
             {
                 Node<T> npNext = np.Next;
                 Node<T> npNextNext = npNext.Next;
@@ -106,7 +105,7 @@ namespace SingleLinkedListDemo
 
         public T ExtractFromEnd()
         {
-            T retValue = ExtractByPosition(GetSize() - 1);
+            T retValue = ExtractByPosition(Count() - 1);
             return retValue;
         }
 
@@ -118,7 +117,7 @@ namespace SingleLinkedListDemo
         private Node<T> GetElementByPosition(int position)
         {
             Node<T> retValue = null;
-            int arrSize = GetSize();
+            int arrSize = Count();
 
             if (IsEmpty())
             {
@@ -163,12 +162,6 @@ namespace SingleLinkedListDemo
             return GetElementByPosition(position).Data;
         }
 
-        public IEnumerator GetEnumerator()
-        {
-            ((IEnumerator)this).Reset();
-            return this;
-        }
-
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
@@ -180,19 +173,23 @@ namespace SingleLinkedListDemo
             return builder.ToString();
         }
 
-        public void PrintToConsole()
+        public string PrintList()
         {
             Node<T> currentElem = _first;
+            StringBuilder builder = new StringBuilder();
 
+            builder.AppendLine("Begin of the list:");
             while (currentElem != null)
             {
-                Console.WriteLine(currentElem.Data);
+                builder.AppendLine(currentElem.Data.ToString());
                 currentElem = currentElem.Next;
             }
-            Console.WriteLine("End of list");
+            builder.AppendLine("End of list;");
+
+            return builder.ToString();
         }
 
-        public int GetSize()
+        public int Count()
         {
             int size = 0;
 
@@ -242,6 +239,12 @@ namespace SingleLinkedListDemo
         }
 
         #endregion
+
+        public IEnumerator GetEnumerator()
+        {
+            ((IEnumerator)this).Reset();
+            return this;
+        }
 
         private Node<T> _first = null;    // ссылка на 1-й элемент в списке
         private Node<T> _current = null;

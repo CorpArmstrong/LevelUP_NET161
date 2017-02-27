@@ -21,7 +21,7 @@ namespace SingleLinkedListDemo
         {
             bool isNext = false;
 
-            if (_position < _myList.GetSize())
+            if (_position < _myList.Count())
             {
                 ++_position;
                 isNext = true;
