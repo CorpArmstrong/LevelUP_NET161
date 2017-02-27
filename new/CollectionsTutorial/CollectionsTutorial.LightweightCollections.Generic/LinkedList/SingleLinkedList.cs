@@ -54,6 +54,33 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
             return retValue;
         }
 
+        public T ExtractFromEnd()
+        {
+            T retValue = ExtractByPosition(GetSize() - 1);
+            return retValue;
+        }
+
+        public T ExtractByPosition(int position)
+        {
+            T retValue = default(T);
+            Node<T> np = GetElementByPosition(position - 1).Next;
+
+            if (position < GetSize() - 1)
+            {
+                Node<T> npNext = np.Next;
+                Node<T> npNextNext = npNext.Next;
+
+                np.Next = npNextNext;
+                retValue = np.Data;
+            }
+            else
+            {
+                np = null;
+            }
+
+            return retValue;
+        }
+
         public bool RemoveByValue(T val)
         {
             if (IsEmpty())
@@ -80,81 +107,6 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
             }
 
             return false;
-        }
-
-        public T ExtractByPosition(int position)
-        {
-            T retValue = default(T);
-            Node<T> np = GetElementByPosition(position - 1).Next;
-
-            if (position < Count() - 1)
-            {
-                Node<T> npNext = np.Next;
-                Node<T> npNextNext = npNext.Next;
-
-                np.Next = npNextNext;
-                retValue = np.Data;
-            }
-            else
-            {
-                np = null;
-            }
-
-            return retValue;
-        }
-
-        public T ExtractFromEnd()
-        {
-            T retValue = ExtractByPosition(Count() - 1);
-            return retValue;
-        }
-
-        private bool IsEqual<V>(V x, V y)
-        {
-            return x.Equals(y);
-        }
-
-        private Node<T> GetElementByPosition(int position)
-        {
-            Node<T> retValue = null;
-            int arrSize = Count();
-
-            if (IsEmpty())
-            {
-                // throw exception EmptyContainer
-            }
-
-            if (position >= 0 && position < arrSize)
-            {
-                Node<T> currentElem = _first;
-                int pos = 0;
-
-                if (pos == position)
-                {
-                    retValue = currentElem;
-                }
-                else
-                {
-                    while (currentElem.Next != null)
-                    {
-                        ++pos;
-
-                        if (pos == position)
-                        {
-                            retValue = currentElem.Next;
-                            break;
-                        }
-
-                        currentElem = currentElem.Next;
-                    }
-                }
-            }
-            else
-            {
-                // throw exception OutOfBounds?
-            }
-
-            return retValue;
         }
 
         public T GetValueByPosition(int position)
@@ -184,12 +136,12 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
                 builder.AppendLine(currentElem.Data.ToString());
                 currentElem = currentElem.Next;
             }
-            builder.AppendLine("End of list;");
+            builder.AppendLine("End of the list;");
 
             return builder.ToString();
         }
 
-        public int Count()
+        public int GetSize()
         {
             int size = 0;
 
@@ -244,6 +196,54 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
         {
             ((IEnumerator)this).Reset();
             return this;
+        }
+
+        private bool IsEqual<V>(V x, V y)
+        {
+            return x.Equals(y);
+        }
+
+        private Node<T> GetElementByPosition(int position)
+        {
+            Node<T> retValue = null;
+            int arrSize = GetSize();
+
+            if (IsEmpty())
+            {
+                // throw exception EmptyContainer
+            }
+
+            if (position >= 0 && position < arrSize)
+            {
+                Node<T> currentElem = _first;
+                int pos = 0;
+
+                if (pos == position)
+                {
+                    retValue = currentElem;
+                }
+                else
+                {
+                    while (currentElem.Next != null)
+                    {
+                        ++pos;
+
+                        if (pos == position)
+                        {
+                            retValue = currentElem.Next;
+                            break;
+                        }
+
+                        currentElem = currentElem.Next;
+                    }
+                }
+            }
+            else
+            {
+                // throw exception OutOfBounds?
+            }
+
+            return retValue;
         }
 
         private Node<T> _first = null;    // ссылка на 1-й элемент в списке

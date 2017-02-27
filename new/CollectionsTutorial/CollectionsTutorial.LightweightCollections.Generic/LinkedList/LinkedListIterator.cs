@@ -21,7 +21,7 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
         {
             bool isNext = false;
 
-            if (_position < _myList.Count())
+            if (_position < _myList.GetSize())
             {
                 ++_position;
                 isNext = true;
