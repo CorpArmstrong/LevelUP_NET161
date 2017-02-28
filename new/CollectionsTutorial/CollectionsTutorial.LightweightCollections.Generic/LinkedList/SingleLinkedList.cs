@@ -109,7 +109,7 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
             return false;
         }
 
-        public bool Contains(T val)
+        public bool Contains(T value)
         {
             bool result = false;
 
@@ -118,12 +118,12 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
                 throw new EmptyListException("Can't search through an empty list!");
             }
 
-            if (IsEqual(_first.Data, val))
+            if (IsEqual(_first.Data, value))
             {
                 result = true;
             }
 
-            if (IsEqual<T>(Find(val).Data, val))
+            if (Find(value) != null)
             {
                 result = true;
             }
