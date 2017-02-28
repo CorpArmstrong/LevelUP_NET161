@@ -6,8 +6,8 @@ namespace CollectionsTutorial
     {
         static void Main(string[] args)
         {
-            SingleLinkedListDemo singleLinkedListDemo = new SingleLinkedListDemo();
-            singleLinkedListDemo.RunDemo();
+            //new SingleLinkedListDemo().RunDemo();
+            new DoublyLinkedListDemo().RunDemo();
         }
     }
 }

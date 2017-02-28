@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\EmptyListException.cs" />
+    <Compile Include="LinkedList\DoublyLinkedList.cs" />
+    <Compile Include="LinkedList\INode.cs" />
     <Compile Include="LinkedList\LinkedListIterator.cs" />
     <Compile Include="LinkedList\SingleLinkedList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

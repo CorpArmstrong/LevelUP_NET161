@@ -32,8 +32,6 @@ namespace CollectionsTutorial.Demo
             GUIUtils.ShowMessage(string.Format("Get from begin: {0}", singleLinkedList.ExtractFromBegin()));
             GUIUtils.ShowMessage(singleLinkedList.PrintList());
 
-
-
             InputUtils.WaitForInput();
 
             #region Enumerator explanation

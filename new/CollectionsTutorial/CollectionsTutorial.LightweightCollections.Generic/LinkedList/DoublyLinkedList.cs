@@ -5,33 +5,123 @@ using CollectionsTutorial.LightweightCollections.Generic.Exceptions;
 
 namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
 {
-    public class SingleLinkedList<T> : IEnumerable, IEnumerator
+    public class DoublyLinkedList<T> : IEnumerable, IEnumerator
     {
+        /// <summary>
+        /// Simply adds item after given position in list
+        /// </summary>
+        /// <param name="position">Integer param</param>
+        /// <param name="item">Generic param</param>
+        /// <returns>True, if operation is successfull, otherwise return False.</returns>
+        public bool AddAfter(int position, T item)
+        {
+            bool result = false;
+            DoubleNode<T> queryNode = GetElementByPosition(position);
+
+            if (queryNode != null)
+            {
+                // If it's not the last element in list
+                if (queryNode.Next != null)
+                {
+                    DoubleNode<T> newNode = new DoubleNode<T>(item);
+                    DoubleNode<T> queryNodeNext = queryNode.Next;
+
+                    queryNode.Next = newNode;
+                    newNode.Previous = queryNode;
+                    newNode.Next = queryNodeNext;
+                    queryNodeNext.Previous = newNode;
+
+                    result = true;
+                }
+                else
+                {
+                    AddToEnd(item);
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Simply adds item before given position in list
+        /// </summary>
+        /// <param name="position">Integer param</param>
+        /// <param name="item">Generic param</param>
+        /// <returns>True, if operation is successfull, otherwise return False.</returns>
+        public bool AddBefore(int position, T item)
+        {
+            bool result = false;
+            DoubleNode<T> queryNode = GetElementByPosition(position);
+
+            if (queryNode != null)
+            {
+                // If it's not the first element in list
+                if (queryNode.Previous != null)
+                {
+                    DoubleNode<T> newNode = new DoubleNode<T>(item);
+                    DoubleNode<T> queryNodePrevious = queryNode.Previous;
+
+                    queryNodePrevious.Next = newNode;
+                    newNode.Previous = queryNodePrevious;
+                    newNode.Next = queryNode;
+                    queryNode.Previous = newNode;
+
+                    result = true;
+                }
+                else
+                {
+                    AddToBegin(item);
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Checks whether or not list is empty.
+        /// </summary>
+        /// <returns></returns>
         public bool IsEmpty()
         {
             return _first == null;
         }
 
+        /// <summary>
+        /// Simply adds new element in front of the list.
+        /// </summary>
+        /// <param name="d">Generic param</param>
         public void AddToBegin(T d)
         {
-            Node<T> newElem = new Node<T>(d);
+            DoubleNode<T> newElem = new DoubleNode<T>(d);
+
             newElem.Next = _first;
+
+            if (_first != null)
+            {
+                _first.Previous = newElem;
+            }
+
             _first = newElem;
         }
 
+        /// <summary>
+        /// Simply adds new element to the end of the list.
+        /// </summary>
+        /// <param name="d">Generic param</param>
         public void AddToEnd(T d)
         {
-            Node<T> newElem = new Node<T>(d);
+            DoubleNode<T> newElem = new DoubleNode<T>(d);
 
             if (!IsEmpty())
             {
-                Node<T> currentElem = _first;
+                DoubleNode<T> currentElem = _first;
                 while (currentElem.Next != null)
                 {
                     currentElem = currentElem.Next;
                 }
 
                 currentElem.Next = newElem;
+                newElem.Previous = currentElem;
             }
             else
             {
@@ -63,19 +153,19 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
         public T ExtractByPosition(int position)
         {
             T retValue = default(T);
-            Node<T> np = GetElementByPosition(position - 1).Next;
+            DoubleNode<T> queryElement = GetElementByPosition(position - 1).Next;
 
             if (position < GetSize() - 1)
             {
-                Node<T> npNext = np.Next;
-                Node<T> npNextNext = npNext.Next;
+                DoubleNode<T> queryElementNext = queryElement.Next;
+                DoubleNode<T> queryElementNextNext = queryElementNext.Next;
 
-                np.Next = npNextNext;
-                retValue = np.Data;
+                queryElement.Next = queryElementNextNext;
+                retValue = queryElement.Data;
             }
             else
             {
-                np = null;
+                queryElement = null;
             }
 
             return retValue;
@@ -94,7 +184,7 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
                 return true;
             }
 
-            Node<T> currElem = _first;
+            DoubleNode<T> currElem = _first;
 
             while (currElem.Next != null && !IsEqual(currElem.Next.Data, val))
             {
@@ -107,56 +197,6 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
             }
 
             return false;
-        }
-
-        public bool Contains(T val)
-        {
-            bool result = false;
-
-            if (IsEmpty())
-            {
-                throw new EmptyListException("Can't search through an empty list!");
-            }
-
-            if (IsEqual(_first.Data, val))
-            {
-                result = true;
-            }
-
-            if (IsEqual<T>(Find(val).Data, val))
-            {
-                result = true;
-            }
-
-            return result;
-        }
-
-        private Node<T> Find(T value)
-        {
-            Node<T> resultNode = null;
-
-            if (IsEmpty())
-            {
-                throw new EmptyListException("Can't search through an empty list!");
-            }
-
-            if (value != null)
-            {
-                Node<T> currentNode = _first;
-
-                while (currentNode.Next != null)
-                {
-                    if (IsEqual(currentNode.Data, value))
-                    {
-                        resultNode = currentNode;
-                        break;
-                    }
-
-                    currentNode = currentNode.Next;
-                }
-            }
-
-            return resultNode;
         }
 
         public T GetValueByPosition(int position)
@@ -175,9 +215,13 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Print the entire list.
+        /// </summary>
+        /// <returns></returns>
         public string PrintList()
         {
-            Node<T> currentElem = _first;
+            DoubleNode<T> currentElem = _first;
             StringBuilder builder = new StringBuilder();
 
             builder.AppendLine("Begin of the list:");
@@ -191,13 +235,17 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Gets list size.
+        /// </summary>
+        /// <returns></returns>
         public int GetSize()
         {
             int size = 0;
 
             if (!IsEmpty())
             {
-                Node<T> currentElem = _first;
+                DoubleNode<T> currentElem = _first;
                 size = 1;
 
                 while (currentElem.Next != null)
@@ -253,9 +301,9 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
             return x.Equals(y);
         }
 
-        private Node<T> GetElementByPosition(int position)
+        private DoubleNode<T> GetElementByPosition(int position)
         {
-            Node<T> retValue = null;
+            DoubleNode<T> retValue = null;
             int arrSize = GetSize();
 
             if (IsEmpty())
@@ -265,7 +313,7 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
 
             if (position >= 0 && position < arrSize)
             {
-                Node<T> currentElem = _first;
+                DoubleNode<T> currentElem = _first;
                 int pos = 0;
 
                 if (pos == position)
@@ -296,14 +344,14 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
             return retValue;
         }
 
-        protected Node<T> _first = null;    // ссылка на 1-й элемент в списке
-        protected Node<T> _current = null;
+        protected DoubleNode<T> _first = null;    // ссылка на 1-й элемент в списке
+        protected DoubleNode<T> _current = null;
         protected bool _isFirst = true;
 
         // Элемент списка
-        protected class Node<U>
+        protected class DoubleNode<U>
         {
-            public Node(U data)
+            public DoubleNode(U data)
             {
                 _data = data;
                 _next = null;
@@ -315,14 +363,21 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
                 set { _data = value; }
             }
 
-            public Node<U> Next
+            public DoubleNode<U> Previous
+            {
+                get { return _previous; }
+                set { _previous = value; }
+            }
+
+            public DoubleNode<U> Next
             {
                 get { return _next; }
                 set { _next = value; }
             }
 
             private U _data;
-            private Node<U> _next;
+            private DoubleNode<U> _previous;
+            private DoubleNode<U> _next;
         }
     }
 }
