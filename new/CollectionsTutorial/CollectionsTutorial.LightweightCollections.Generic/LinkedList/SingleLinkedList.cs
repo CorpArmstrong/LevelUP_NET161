@@ -5,7 +5,8 @@ using CollectionsTutorial.LightweightCollections.Generic.Exceptions;
 
 namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
 {
-    public class SingleLinkedList<T> : IEnumerable, IEnumerator
+    public class SingleLinkedList<T> : IEnumerable
+        where T : IComparable<T>
     {
         public bool IsEmpty()
         {
@@ -96,7 +97,8 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
 
             Node<T> currElem = _first;
 
-            while (currElem.Next != null && !IsEqual(currElem.Next.Data, val))
+            while (currElem.Next != null && (val.CompareTo(currElem.Next.Data) != 0))
+            //while (currElem.Next != null && !IsEqual(currElem.Next.Data, val))
             {
                 currElem = currElem.Next;
             }
@@ -134,11 +136,6 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
         private Node<T> Find(T value)
         {
             Node<T> resultNode = null;
-
-            if (IsEmpty())
-            {
-                throw new EmptyListException("Can't search through an empty list!");
-            }
 
             if (value != null)
             {
@@ -210,42 +207,9 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
             return size;
         }
 
-        #region Реализация явная интерфейса итератора для односвязного списка
-
-        object IEnumerator.Current
-        {
-            get
-            {
-                return _current.Data;
-            }
-        }
-
-        bool IEnumerator.MoveNext()
-        {
-            if (_isFirst)
-            {
-                _isFirst = false;
-            }
-            else
-            {
-                _current = _current.Next;
-            }
-
-            return (_current != null);
-        }
-
-        void IEnumerator.Reset()
-        {
-            _current = _first;
-            _isFirst = true;
-        }
-
-        #endregion
-
         public IEnumerator GetEnumerator()
         {
-            ((IEnumerator)this).Reset();
-            return this;
+            return new NodeIterator(_first);
         }
 
         private bool IsEqual<V>(V x, V y)
@@ -296,11 +260,8 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
             return retValue;
         }
 
-        protected Node<T> _first = null;    // ссылка на 1-й элемент в списке
-        protected Node<T> _current = null;
-        protected bool _isFirst = true;
+        protected Node<T> _first = null;
 
-        // Элемент списка
         protected class Node<U>
         {
             public Node(U data)
@@ -323,6 +284,47 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
 
             private U _data;
             private Node<U> _next;
+        }
+
+        protected class NodeIterator : IEnumerator
+        {
+            public NodeIterator(Node<T> first)
+            {
+                _first = first;
+            }
+
+            public object Current
+            {
+                get
+                {
+                    return _currentElement.Data;
+                }
+            }
+
+            public bool MoveNext()
+            {                
+                if (_firsted)
+                {
+                    _firsted = false;
+                }
+                else
+                {
+                    _currentElement = _currentElement.Next;
+                }
+
+                return _currentElement != null;
+            }
+
+            public void Reset()
+            {
+                _firsted = true;
+                _currentElement = _first;
+            }
+
+            bool _firsted = true;
+
+            Node<T> _currentElement = null;
+            Node<T> _first = null;
         }
     }
 }

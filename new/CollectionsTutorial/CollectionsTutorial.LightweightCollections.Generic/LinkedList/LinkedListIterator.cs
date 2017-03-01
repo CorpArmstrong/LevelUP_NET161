@@ -2,40 +2,40 @@
 
 namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
 {
-    public class LinkedListIterator<T> : IEnumerator
+    public class LinkedListIterator//<T> : IEnumerator
     {
-        public LinkedListIterator(SingleLinkedList<T> list)
-        {
-            _myList = list;
-        }
+        //public LinkedListIterator(SingleLinkedList<T> list)
+        //{
+        //    _myList = list;
+        //}
 
-        public object Current
-        {
-            get
-            {
-                return null;
-            }
-        }
+        //public object Current
+        //{
+        //    get
+        //    {
+        //        return null;
+        //    }
+        //}
 
-        public bool MoveNext()
-        {
-            bool isNext = false;
+        //public bool MoveNext()
+        //{
+        //    bool isNext = false;
 
-            if (_position < _myList.GetSize())
-            {
-                ++_position;
-                isNext = true;
-            } 
+        //    if (_position < _myList.GetSize())
+        //    {
+        //        ++_position;
+        //        isNext = true;
+        //    } 
 
-            return isNext;
-        }
+        //    return isNext;
+        //}
 
-        public void Reset()
-        {
-            _position = 0;
-        }
+        //public void Reset()
+        //{
+        //    _position = 0;
+        //}
 
-        int _position = 0;
-        SingleLinkedList<T> _myList = null;
+        //int _position = 0;
+        //SingleLinkedList<T> _myList = null;
     }
 }
