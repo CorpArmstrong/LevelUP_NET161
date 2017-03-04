@@ -1,18 +1,27 @@
 ﻿using System;
 using System.Text;
 using System.Collections;
+using System.Collections.Generic;
 using CollectionsTutorial.LightweightCollections.Generic.Exceptions;
 
 namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
 {
-    public class SingleLinkedList<T> : IEnumerable
+    public class SingleLinkedList<T> : IEnumerable<T>
         where T : IComparable<T>
     {
+        // <summary>
+        /// Checks whether or not list is empty.
+        /// </summary>
+        /// <returns></returns>
         public bool IsEmpty()
         {
             return _first == null;
         }
 
+        /// <summary>
+        /// Simply adds new element in front of the list.
+        /// </summary>
+        /// <param name="d"></param>
         public void AddToBegin(T d)
         {
             Node<T> newElem = new Node<T>(d);
@@ -20,6 +29,10 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
             _first = newElem;
         }
 
+        /// <summary>
+        /// Simply adds new element to the end of the list.
+        /// </summary>
+        /// <param name="d"></param>
         public void AddToEnd(T d)
         {
             Node<T> newElem = new Node<T>(d);
@@ -40,6 +53,10 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
             }
         }
 
+        /// <summary>
+        /// Exctracts item value from begin.
+        /// </summary>
+        /// <returns></returns>
         public T ExtractFromBegin()
         {
             T retValue = default(T);
@@ -55,10 +72,13 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
             return retValue;
         }
 
+        /// <summary>
+        /// Extracts item value from the end.
+        /// </summary>
+        /// <returns></returns>
         public T ExtractFromEnd()
         {
-            T retValue = ExtractByPosition(GetSize() - 1);
-            return retValue;
+            return ExtractByPosition(GetSize() - 1);;
         }
 
         public T ExtractByPosition(int position)
@@ -82,6 +102,30 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
             return retValue;
         }
 
+        public T ExtractElementByValue(T value)
+        {
+            if (IsEmpty())
+            {
+                throw new EmptyListException("Can't extract item from an empty list!");
+            }
+
+            Node<T> currElem = _first;
+            T resultValue = default(T);
+
+            while (currElem.Next != null && (value.CompareTo(currElem.Next.Data) != 0))
+            {
+                currElem = currElem.Next;
+            }
+
+            if (currElem.Next != null)
+            {
+                resultValue = currElem.Next.Data;
+                currElem.Next = currElem.Next.Next;
+            }
+
+            return resultValue;
+        }
+
         public bool RemoveByValue(T val)
         {
             if (IsEmpty())
@@ -89,7 +133,7 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
                 throw new EmptyListException("Can't remove item from an empty list!");
             }
 
-            if (IsEqual(_first.Data, val))
+            if (val.CompareTo(_first.Data) == 0)
             {
                 ExtractFromBegin();
                 return true;
@@ -98,7 +142,6 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
             Node<T> currElem = _first;
 
             while (currElem.Next != null && (val.CompareTo(currElem.Next.Data) != 0))
-            //while (currElem.Next != null && !IsEqual(currElem.Next.Data, val))
             {
                 currElem = currElem.Next;
             }
@@ -113,24 +156,12 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
 
         public bool Contains(T value)
         {
-            bool result = false;
-
             if (IsEmpty())
             {
                 throw new EmptyListException("Can't search through an empty list!");
             }
 
-            if (IsEqual(_first.Data, value))
-            {
-                result = true;
-            }
-
-            if (Find(value) != null)
-            {
-                result = true;
-            }
-
-            return result;
+            return Find(value) != null;
         }
 
         private Node<T> Find(T value)
@@ -143,7 +174,7 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
 
                 while (currentNode.Next != null)
                 {
-                    if (IsEqual(currentNode.Data, value))
+                    if (value.CompareTo(currentNode.Data) == 0)
                     {
                         resultNode = currentNode;
                         break;
@@ -165,7 +196,7 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
         {
             StringBuilder builder = new StringBuilder();
 
-            foreach (int item in this)
+            foreach (T item in this)
             {
                 builder.Append(item.ToString() + "\t");
             }
@@ -205,16 +236,6 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
             }
 
             return size;
-        }
-
-        public IEnumerator GetEnumerator()
-        {
-            return new NodeIterator(_first);
-        }
-
-        private bool IsEqual<V>(V x, V y)
-        {
-            return x.Equals(y);
         }
 
         private Node<T> GetElementByPosition(int position)
@@ -286,20 +307,30 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
             private Node<U> _next;
         }
 
-        protected class NodeIterator : IEnumerator
+        protected class NodeIterator<T> : IEnumerator<T>
         {
             public NodeIterator(Node<T> first)
             {
                 _first = first;
             }
 
-            public object Current
+            public T Current
             {
                 get
                 {
                     return _currentElement.Data;
                 }
             }
+
+            object IEnumerator.Current
+            {
+                get
+                {
+                    return _currentElement.Data;
+                }
+            }
+
+            public void Dispose() { }
 
             public bool MoveNext()
             {                
@@ -326,5 +357,19 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
             Node<T> _currentElement = null;
             Node<T> _first = null;
         }
+
+        #region IEnumerator
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return new NodeIterator<T>(_first);
+        }
+
+        #endregion
     }
 }

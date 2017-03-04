@@ -5,13 +5,18 @@ using CollectionsTutorial.LightweightCollections.Generic.Exceptions;
 
 namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
 {
+    /// <summary>
+    /// This class requires major refactoring (using inheritance) 
+    /// due to changes made to SingleLinkedList!
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class DoublyLinkedList<T> : IEnumerable, IEnumerator
     {
         /// <summary>
         /// Simply adds item after given position in list
         /// </summary>
-        /// <param name="position">Integer param</param>
-        /// <param name="item">Generic param</param>
+        /// <param name="position"></param>
+        /// <param name="item"></param>
         /// <returns>True, if operation is successfull, otherwise return False.</returns>
         public bool AddAfter(int position, T item)
         {
@@ -45,8 +50,8 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
         /// <summary>
         /// Simply adds item before given position in list
         /// </summary>
-        /// <param name="position">Integer param</param>
-        /// <param name="item">Generic param</param>
+        /// <param name="position"></param>
+        /// <param name="item"></param>
         /// <returns>True, if operation is successfull, otherwise return False.</returns>
         public bool AddBefore(int position, T item)
         {
@@ -89,7 +94,7 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
         /// <summary>
         /// Simply adds new element in front of the list.
         /// </summary>
-        /// <param name="d">Generic param</param>
+        /// <param name="d"></param>
         public void AddToBegin(T d)
         {
             DoubleNode<T> newElem = new DoubleNode<T>(d);
@@ -107,7 +112,7 @@ namespace CollectionsTutorial.LightweightCollections.Generic.LinkedList
         /// <summary>
         /// Simply adds new element to the end of the list.
         /// </summary>
-        /// <param name="d">Generic param</param>
+        /// <param name="d"></param>
         public void AddToEnd(T d)
         {
             DoubleNode<T> newElem = new DoubleNode<T>(d);
