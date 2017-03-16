@@ -76,6 +76,35 @@ namespace Trees
             AddByIteration(key, value);
         }
 
+        private static void Remove(ref Node root, TKey key)
+        {
+            if (key.CompareTo(root.Key) == 0)
+            {
+                root.Deleted = true;
+                Console.WriteLine("Deleted key: {0}, value was: {1}", root.Key, root.Value);
+                return;
+            }
+
+            if (key.CompareTo(root.Key) < 0)
+            {
+                Remove(ref root._left, key);
+            }
+            else
+            {
+                Remove(ref root._right, key);
+            }
+        }
+
+        public void RemoveKey(TKey key)
+        {
+            if (_root == null)
+            {
+                throw new Exception("Can't remove item from an empty tree!");
+            }
+
+            Remove(ref _root, key);
+        }
+
         private static void PrintToConsole(Node root, string offset = "")
         {
             if (root == null)    // тривиальный случай
@@ -103,7 +132,7 @@ namespace Trees
             }
 
             TreeAsString(root._left, ref builder, offset + "\t");
-            builder.AppendLine(string.Format("{0}[{1}] = {2}", offset, root.Key, root.Value));
+            builder.AppendLine(string.Format("{0}[{1}] = {2}, deleted? = {3}", offset, root.Key, root.Value, root.Deleted));
             TreeAsString(root._right, ref builder, offset + "\t");
         }
 

@@ -19,6 +19,10 @@ namespace Trees
 
             //t.PrintToConsole();
             Console.WriteLine(t);
+
+            t.RemoveKey("asd");
+            Console.WriteLine(t);
+
             Console.ReadKey();
         }
     }
