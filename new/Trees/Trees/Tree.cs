@@ -1,17 +1,55 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Trees
 {
-    class Tree<TKey, TValue> //: IDictionary<TKey, TValue>
+    class Tree<TKey, TValue> : IDictionary<TKey, TValue>
         where TKey : IComparable<TKey>
     {
         public Tree()
         {
+        }
 
+        private void AddByIteration(TKey key, TValue value)
+        {
+            if (_root == null)    // тривиальный случай
+            {
+                _root = new Node(key, value);
+                return;
+            }
+
+            Node currentNode = _root;
+            bool isNodeAdded = false;
+
+            while (!isNodeAdded)
+            {
+                if (key.CompareTo(currentNode.Key) < 0)
+                {
+                    if (currentNode._left == null)
+                    {
+                        currentNode._left = new Node(key, value);
+                        isNodeAdded = true;
+                    }
+                    else
+                    {
+                        currentNode = currentNode._left;
+                    }
+                }
+                else
+                {
+                    if (currentNode._right == null)
+                    {
+                        currentNode._right = new Node(key, value);
+                        isNodeAdded = true;
+                    }
+                    else
+                    {
+                        currentNode = currentNode._right;
+                    }
+                }
+            }
         }
 
         private static void Add(ref Node root, TKey key, TValue value)
@@ -34,7 +72,8 @@ namespace Trees
 
         public void Add(TKey key, TValue value)
         {
-            Add(ref _root, key, value);
+            //Add(ref _root, key, value);
+            AddByIteration(key, value);
         }
 
         private static void PrintToConsole(Node root, string offset = "")
@@ -55,6 +94,125 @@ namespace Trees
         {
             PrintToConsole(_root);
         }
+
+        private static void TreeAsString(Node root, ref StringBuilder builder, string offset = "")
+        {
+            if (root == null)     // тривиальный случай
+            {
+                return;
+            }
+
+            TreeAsString(root._left, ref builder, offset + "\t");
+            builder.AppendLine(string.Format("{0}[{1}] = {2}", offset, root.Key, root.Value));
+            TreeAsString(root._right, ref builder, offset + "\t");
+        }
+
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine("Binary Tree:");
+            TreeAsString(_root, ref builder);
+            return builder.ToString();
+        }
+
+        #region IDictionary
+
+        public bool ContainsKey(TKey key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Remove(TKey key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryGetValue(TKey key, out TValue value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Add(KeyValuePair<TKey, TValue> item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Clear()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Contains(KeyValuePair<TKey, TValue> item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Remove(KeyValuePair<TKey, TValue> item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICollection<TKey> Keys
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public ICollection<TValue> Values
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int Count
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public bool IsReadOnly
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public TValue this[TKey key]
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        #endregion
 
         Node _root = null;    // ссылка на корневой узел дерева
 

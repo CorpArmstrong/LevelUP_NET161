@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Trees
 {
@@ -21,9 +17,8 @@ namespace Trees
             t.Add("aaaa", 1.1);
             t.Add("12a", 1.1);
 
-
-            t.PrintToConsole();
-
+            //t.PrintToConsole();
+            Console.WriteLine(t);
             Console.ReadKey();
         }
     }
