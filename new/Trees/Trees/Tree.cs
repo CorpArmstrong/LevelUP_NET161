@@ -99,7 +99,7 @@ namespace Trees
         {
             if (_root == null)
             {
-                throw new Exception("Can't remove item from an empty tree!");
+                throw new ApplicationException("Can't remove item from an empty tree!");
             }
 
             Remove(ref _root, key);
@@ -113,9 +113,7 @@ namespace Trees
             }
 
             PrintToConsole(root._left, offset + "\t");
-
             Console.WriteLine("{0}[{1}] = {2}", offset, root.Key, root.Value);
-
             PrintToConsole(root._right, offset + "\t");
         }
 
@@ -145,6 +143,9 @@ namespace Trees
         }
 
         #region IDictionary
+
+        private ICollection<TKey> _keys;
+        private ICollection<TValue> _values;
 
         public bool ContainsKey(TKey key)
         {
@@ -189,6 +190,11 @@ namespace Trees
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
             throw new NotImplementedException();
+
+            //for (int i = 0; i < _keys.Count; i++)
+            //{
+            //    yield return new KeyValuePair<TKey, TValue>(_keys., );
+            //}
         }
 
         IEnumerator IEnumerable.GetEnumerator()
