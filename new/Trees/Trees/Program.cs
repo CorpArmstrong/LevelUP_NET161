@@ -23,6 +23,11 @@ namespace Trees
             t.RemoveKey("asd");
             Console.WriteLine(t);
 
+            // Last edit:
+            Console.WriteLine("Value for key: abs = " + t["abs"]);
+            t["abs"] = 1.31;
+            Console.WriteLine("New value for key: abs = " + t["abs"]);
+
             Console.ReadKey();
         }
     }

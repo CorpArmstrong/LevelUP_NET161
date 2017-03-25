@@ -76,6 +76,43 @@ namespace Trees
             AddByIteration(key, value);
         }
 
+        private TValue GetValue(ref Node root, TKey key)
+        {
+            if (key.CompareTo(root.Key) == 0)
+            {
+                Console.WriteLine("Obtained value: {0}, key: {1}", root.Value, root.Key);
+                return root.Value;
+            }
+
+            if (key.CompareTo(root.Key) < 0)
+            {
+                return GetValue(ref root._left, key);
+            }
+            else
+            {
+                return GetValue(ref root._right, key);
+            }
+        }
+
+        private Node GetNode(ref Node root, TKey key)
+        {
+            if (key.CompareTo(root.Key) == 0)
+            {
+                return root;
+                //Console.WriteLine("Obtained value: {0}, key: {1}", root.Value, root.Key);
+                //return root.Key;
+            }
+
+            if (key.CompareTo(root.Key) < 0)
+            {
+                return GetNode(ref root._left, key);
+            }
+            else
+            {
+                return GetNode(ref root._right, key);
+            }
+        }
+
         private static void Remove(ref Node root, TKey key)
         {
             if (key.CompareTo(root.Key) == 0)
@@ -103,6 +140,16 @@ namespace Trees
             }
 
             Remove(ref _root, key);
+        }
+
+        public TValue Get(TKey key)
+        {
+            if (_root == null)
+            {
+                throw new ApplicationException("Can't get value from an empty tree!");
+            }
+
+            return GetValue(ref _root, key);
         }
 
         private static void PrintToConsole(Node root, string offset = "")
@@ -154,7 +201,8 @@ namespace Trees
 
         public bool Remove(TKey key)
         {
-            throw new NotImplementedException();
+            RemoveKey(key);
+            return true;
         }
 
         public bool TryGetValue(TKey key, out TValue value)
@@ -164,12 +212,12 @@ namespace Trees
 
         public void Add(KeyValuePair<TKey, TValue> item)
         {
-            throw new NotImplementedException();
+            Add(item.Key, item.Value);
         }
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            _root = null;
         }
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
@@ -184,7 +232,8 @@ namespace Trees
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            throw new NotImplementedException();
+            RemoveKey(item.Key);
+            return true;
         }
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
@@ -206,7 +255,7 @@ namespace Trees
         {
             get
             {
-                throw new NotImplementedException();
+                return _keys;
             }
         }
 
@@ -214,7 +263,7 @@ namespace Trees
         {
             get
             {
-                throw new NotImplementedException();
+                return _values;
             }
         }
 
@@ -238,12 +287,11 @@ namespace Trees
         {
             get
             {
-                throw new NotImplementedException();
+                return Get(key);
             }
-
             set
             {
-                throw new NotImplementedException();
+                GetNode(ref _root, key).Value = value;
             }
         }
 
