@@ -236,9 +236,50 @@ namespace Trees
             return true;
         }
 
+        private static IEnumerable<KeyValuePair<TKey, TValue>> ToKeysEnumerator(Node root)
+        {
+            if (root == null)     // тривиальный случай
+            {
+                yield break;
+            }
+
+            foreach (KeyValuePair<TKey, TValue> item in ToKeysEnumerator(root._left))
+            {
+                yield return item;
+            }
+            
+            yield return new KeyValuePair<TKey,TValue>(root.Key, root.Value);
+         //   builder.AppendLine(string.Format("{0}[{1}] = {2}, deleted? = {3}", offset, root.Key, root.Value, root.Deleted));
+            
+            foreach (KeyValuePair<TKey, TValue> item in ToKeysEnumerator(root._right))
+            {
+                yield return item;
+            }
+        }
+
+        private static void GetKeys(Node root, ICollection<TKey> keys)
+        {
+           // LinkedList
+
+            if (root == null)     // тривиальный случай
+            {
+                return;
+            }
+
+
+            GetKeys(root._left, keys);
+
+            keys.Add(root.Key);
+
+            GetKeys(root._right, keys);
+        }
+        
+
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return ToKeysEnumerator(_root).GetEnumerator();
+
+          //  throw new NotImplementedException();
 
             //for (int i = 0; i < _keys.Count; i++)
             //{
@@ -255,7 +296,9 @@ namespace Trees
         {
             get
             {
-                return _keys;
+                List<TKey> keys = new List<TKey>();
+                GetKeys(_root, keys);
+                return keys;
             }
         }
 

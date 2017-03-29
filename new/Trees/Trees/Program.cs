@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Trees
 {
@@ -27,6 +28,18 @@ namespace Trees
             Console.WriteLine("Value for key: abs = " + t["abs"]);
             t["abs"] = 1.31;
             Console.WriteLine("New value for key: abs = " + t["abs"]);
+
+            Console.WriteLine();
+            Console.WriteLine("Keys");
+            foreach (string item in t.Keys)
+            {
+                Console.Write("[{0}]\t", item);
+            }
+
+            //foreach (KeyValuePair<string, double> item in t)
+            //{
+            //    Console.WriteLine("[{0}]={1}", item.Key, item.Value);
+            //}
 
             Console.ReadKey();
         }
