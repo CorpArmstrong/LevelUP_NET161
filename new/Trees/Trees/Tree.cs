@@ -7,6 +7,7 @@ namespace Trees
 {
     class Tree<TKey, TValue> : IDictionary<TKey, TValue>
         where TKey : IComparable<TKey>
+        where TValue : IComparable<TValue>
     {
         public Tree()
         {
@@ -96,11 +97,14 @@ namespace Trees
 
         private Node GetNode(ref Node root, TKey key)
         {
+            if (root == null)
+            {
+                return new Node(key, default(TValue));
+            }
+
             if (key.CompareTo(root.Key) == 0)
             {
                 return root;
-                //Console.WriteLine("Obtained value: {0}, key: {1}", root.Value, root.Key);
-                //return root.Key;
             }
 
             if (key.CompareTo(root.Key) < 0)
@@ -111,6 +115,25 @@ namespace Trees
             {
                 return GetNode(ref root._right, key);
             }
+        }
+
+        private static void IncrementItem(Node root, ref int counter)
+        {
+            if (root == null)     // тривиальный случай
+            {
+                return;
+            }
+
+            IncrementItem(root._left, ref counter);
+            counter++;
+            IncrementItem(root._right, ref counter);
+        }
+
+        private int GetNodesCount()
+        {
+            int counter = 0;
+            IncrementItem(_root, ref counter);
+            return counter;
         }
 
         private static void Remove(ref Node root, TKey key)
@@ -191,12 +214,9 @@ namespace Trees
 
         #region IDictionary
 
-        private ICollection<TKey> _keys;
-        private ICollection<TValue> _values;
-
         public bool ContainsKey(TKey key)
         {
-            throw new NotImplementedException();
+            return GetNode(ref _root, key) != null;
         }
 
         public bool Remove(TKey key)
@@ -205,9 +225,18 @@ namespace Trees
             return true;
         }
 
+        // Needs to rewrite!
         public bool TryGetValue(TKey key, out TValue value)
         {
-            throw new NotImplementedException();
+            if (_root == null)
+            {
+                value = default(TValue);
+                return false;
+            }
+
+            value = GetValue(ref _root, key);
+            bool isNodePresent = (value.CompareTo(default(TValue)) != 0);
+            return isNodePresent;
         }
 
         public void Add(KeyValuePair<TKey, TValue> item)
@@ -222,7 +251,18 @@ namespace Trees
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            throw new NotImplementedException();
+            bool contains = false;
+            Node nodeToFind = GetNode(ref _root, item.Key);
+
+            if (nodeToFind != null)
+            {
+                if (nodeToFind.Value.CompareTo(item.Value) == 0)
+                {
+                    contains = true;
+                }
+            }
+
+            return contains;
         }
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
@@ -249,7 +289,6 @@ namespace Trees
             }
             
             yield return new KeyValuePair<TKey,TValue>(root.Key, root.Value);
-         //   builder.AppendLine(string.Format("{0}[{1}] = {2}, deleted? = {3}", offset, root.Key, root.Value, root.Deleted));
             
             foreach (KeyValuePair<TKey, TValue> item in ToKeysEnumerator(root._right))
             {
@@ -259,32 +298,31 @@ namespace Trees
 
         private static void GetKeys(Node root, ICollection<TKey> keys)
         {
-           // LinkedList
-
             if (root == null)     // тривиальный случай
             {
                 return;
             }
 
-
             GetKeys(root._left, keys);
-
             keys.Add(root.Key);
-
             GetKeys(root._right, keys);
         }
         
+        private static void GetValues(Node root, ICollection<TValue> values)
+        {
+            if (root == null)     // тривиальный случай
+            {
+                return;
+            }
+
+            GetValues(root._left, values);
+            values.Add(root.Value);
+            GetValues(root._right, values);
+        }
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
             return ToKeysEnumerator(_root).GetEnumerator();
-
-          //  throw new NotImplementedException();
-
-            //for (int i = 0; i < _keys.Count; i++)
-            //{
-            //    yield return new KeyValuePair<TKey, TValue>(_keys., );
-            //}
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -306,7 +344,9 @@ namespace Trees
         {
             get
             {
-                return _values;
+                List<TValue> values = new List<TValue>();
+                GetValues(_root, values);
+                return values;
             }
         }
 
@@ -314,7 +354,7 @@ namespace Trees
         {
             get
             {
-                throw new NotImplementedException();
+                return GetNodesCount();
             }
         }
 
@@ -322,7 +362,7 @@ namespace Trees
         {
             get
             {
-                throw new NotImplementedException();
+                return false;
             }
         }
 

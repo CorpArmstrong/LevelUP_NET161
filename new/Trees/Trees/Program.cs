@@ -30,16 +30,44 @@ namespace Trees
             Console.WriteLine("New value for key: abs = " + t["abs"]);
 
             Console.WriteLine();
-            Console.WriteLine("Keys");
+            Console.WriteLine("Keys:");
+
+            // Get Keys:
             foreach (string item in t.Keys)
             {
                 Console.Write("[{0}]\t", item);
             }
 
-            //foreach (KeyValuePair<string, double> item in t)
-            //{
-            //    Console.WriteLine("[{0}]={1}", item.Key, item.Value);
-            //}
+            Console.WriteLine();
+            Console.WriteLine("Values:");
+
+            // Get Values:
+            foreach (double item in t.Values)
+            {
+                Console.Write("[{0}]\t", item);
+            }
+
+            // Contains Key:
+            Console.WriteLine();
+            Console.WriteLine("Dictionary t contains key {0} ? {1}", 21d, t.ContainsKey("21"));
+
+            // Contains:
+            Console.WriteLine();
+            Console.WriteLine("Dictionary t contains KeyValuePair<{0}, {1}> ? {2}",
+                "rrr", 1.8, t.Contains(new KeyValuePair<string, double>("rrr", 1.8)));
+
+            Console.WriteLine();
+            Console.WriteLine("Dictionary t contains KeyValuePair<{0}, {1}> ? {2}",
+                "rrr", 1.1, t.Contains(new KeyValuePair<string, double>("rrr", 1.1)));
+
+            // Count:
+            Console.WriteLine();
+            Console.WriteLine("Dictionary t consist of {0} elements", t.Count);
+
+            // TryGetValue:
+            Console.WriteLine();
+            double hasValue = 0d;
+            Console.WriteLine("Dictionary t has value {0} ? {1}", 31.21, t.TryGetValue("fabs", out hasValue));
 
             Console.ReadKey();
         }
