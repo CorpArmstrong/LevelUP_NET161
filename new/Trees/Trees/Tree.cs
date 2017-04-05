@@ -7,7 +7,7 @@ namespace Trees
 {
     class Tree<TKey, TValue> : IDictionary<TKey, TValue>
         where TKey : IComparable<TKey>
-        where TValue : IComparable<TValue>
+ //       where TValue : IComparable<TValue>
     {
         public Tree()
         {
@@ -79,27 +79,37 @@ namespace Trees
 
         private TValue GetValue(ref Node root, TKey key)
         {
-            if (key.CompareTo(root.Key) == 0)
+            Node n = GetNode(root, key);
+
+            if (n == null)
             {
-                Console.WriteLine("Obtained value: {0}, key: {1}", root.Value, root.Key);
-                return root.Value;
+                //throw new Exception();    // TreeException <- KeyNotFoundTreeException
             }
 
-            if (key.CompareTo(root.Key) < 0)
-            {
-                return GetValue(ref root._left, key);
-            }
-            else
-            {
-                return GetValue(ref root._right, key);
-            }
+            return n.Value;
+
+            //if (key.CompareTo(root.Key) == 0)
+            //{
+            //    Console.WriteLine("Obtained value: {0}, key: {1}", root.Value, root.Key);
+            //    return root.Value;
+            //}
+
+            //if (key.CompareTo(root.Key) < 0)
+            //{
+            //    return GetValue(ref root._left, key);
+            //}
+            //else
+            //{
+            //    return GetValue(ref root._right, key);
+            //}
         }
 
-        private Node GetNode(ref Node root, TKey key)
+        private Node GetNode(Node root, TKey key)
         {
             if (root == null)
             {
-                return new Node(key, default(TValue));
+                return null;
+               // return new Node(key, default(TValue));
             }
 
             if (key.CompareTo(root.Key) == 0)
@@ -109,11 +119,11 @@ namespace Trees
 
             if (key.CompareTo(root.Key) < 0)
             {
-                return GetNode(ref root._left, key);
+                return GetNode(root._left, key);
             }
             else
             {
-                return GetNode(ref root._right, key);
+                return GetNode(root._right, key);
             }
         }
 
@@ -159,13 +169,14 @@ namespace Trees
         {
             if (_root == null)
             {
+                // !!! TODO: sfdgvndrjlfvn
                 throw new ApplicationException("Can't remove item from an empty tree!");
             }
 
             Remove(ref _root, key);
         }
 
-        public TValue Get(TKey key)
+        public TValue GetAt(TKey key)
         {
             if (_root == null)
             {
@@ -216,7 +227,7 @@ namespace Trees
 
         public bool ContainsKey(TKey key)
         {
-            return GetNode(ref _root, key) != null;
+            return GetNode(_root, key) != null;
         }
 
         public bool Remove(TKey key)
@@ -228,15 +239,19 @@ namespace Trees
         // Needs to rewrite!
         public bool TryGetValue(TKey key, out TValue value)
         {
-            if (_root == null)
+            value = default(TValue);
+
+            Node n = GetNode(_root, key);
+
+            if (n != null)
             {
-                value = default(TValue);
-                return false;
+                value = n.Value;
             }
 
-            value = GetValue(ref _root, key);
-            bool isNodePresent = (value.CompareTo(default(TValue)) != 0);
-            return isNodePresent;
+            //value = GetValue(ref _root, key);
+            //bool isNodePresent = (value.CompareTo(default(TValue)) != 0);
+
+            return n != null;
         }
 
         public void Add(KeyValuePair<TKey, TValue> item)
@@ -251,23 +266,30 @@ namespace Trees
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            bool contains = false;
-            Node nodeToFind = GetNode(ref _root, item.Key);
+            return ContainsKey(item.Key);
 
-            if (nodeToFind != null)
-            {
-                if (nodeToFind.Value.CompareTo(item.Value) == 0)
-                {
-                    contains = true;
-                }
-            }
+            //bool contains = false;
+            //Node nodeToFind = GetNode(_root, item.Key);
 
-            return contains;
+            //if (nodeToFind != null)
+            //{
+            //    if (nodeToFind.Value.CompareTo(item.Value) == 0)
+            //    {
+            //        contains = true;
+            //    }
+            //}
+
+            //return contains;
         }
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            foreach (KeyValuePair<TKey, TValue> item in this)
+            {
+                array[arrayIndex++] = item;
+            }
+
+          //  throw new NotImplementedException();
         }
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
@@ -370,11 +392,11 @@ namespace Trees
         {
             get
             {
-                return Get(key);
+                return GetAt(key);
             }
             set
             {
-                GetNode(ref _root, key).Value = value;
+                GetNode(_root, key).Value = value;
             }
         }
 
