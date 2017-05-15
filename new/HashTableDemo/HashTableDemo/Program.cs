@@ -8,55 +8,68 @@ namespace HashTableDemo
 {
     class Program
     {
-        static int hashSize;
+        //static int hashSize;
 
         static void Main(string[] args)
         {
-        //    char ch = Console.ReadKey().KeyChar;
+            SimpleHashTable simpleHashTable = new SimpleHashTable();
 
-            Console.Write("Enter line:");
+            Console.Write("Enter line: ");
             string s = Console.ReadLine();
 
-            string[] words = s.Split(' ', ',');
+            simpleHashTable.AddWordsToHashTable(s);
 
-            hashSize = char.MaxValue;
-
-            string[] hashWords = new string[hashSize];
-
-            foreach (string w in words)
-            {
-                if (w != "")
-                {
-                    hashWords[HashFunc(w)] = w;   /// Add
-                }
-            }
-
-            Console.Write("Enter word:");
+            Console.Write("Enter word: ");
             string word = Console.ReadLine();
 
-            Console.WriteLine("Line search:");
-            foreach (string w in words)
-            {
-                if (w == word)
-                {
-                    Console.WriteLine("Word is exist");
-                }
-            }
-
-            Console.WriteLine("Work with hash:");
-            if (hashWords[HashFunc(word)] != null)
-            {
-                Console.WriteLine("Word is exist");
-            }
-
-            object o;
-
+            Console.WriteLine(string.Format("Is word {0} is in hashtable? {1}", word, simpleHashTable.IsWordExistsInHashTable(word)));
             Console.ReadKey();
+
+            //    char ch = Console.ReadKey().KeyChar;
+
+            //Console.Write("Enter line:");
+            //string s = Console.ReadLine();
+
+            //string[] words = s.Split(' ', ',');
+
+            //hashSize = char.MaxValue;
+
+            //string[] hashWords = new string[hashSize];
+
+            //foreach (string w in words)
+            //{
+            //    if (w != "")
+            //    {
+            //        hashWords[HashFunc(w)] = w;   /// Add
+            //    }
+            //}
+
+            //Console.Write("Enter word:");
+            //string word = Console.ReadLine();
+
+            //Console.WriteLine("Line search:");
+            //foreach (string w in words)
+            //{
+            //    if (w == word)
+            //    {
+            //        Console.WriteLine("Word is exist");
+            //    }
+            //}
+
+            //Console.WriteLine("Work with hash:");
+            //if (hashWords[HashFunc(word)] != null)
+            //{
+            //    Console.WriteLine("Word is exist");
+            //}
+
+            //object o;
+
+            //Console.ReadKey();
         }
 
-        static int HashFunc(string s)
-        {
-            return (s[0] + s[1]) % hashSize;
-        }
+        //static int HashFunc(string s)
+        //{
+        //    return (s[0] + s[1]) % hashSize;
+        //}
     }
 }
